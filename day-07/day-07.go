@@ -1,10 +1,9 @@
 package main
 
-
 import (
 	"fmt"
-	"strings"
 	"os"
+	"strings"
 )
 
 func part1(lines []string) {
@@ -21,11 +20,11 @@ func part1(lines []string) {
 			lineLength := len(l)
 			newBeams := []int{}
 			currentBeamIndex := 0
-			
+
 			for i, c := range l {
 				if i > beams[currentBeamIndex] {
 					if (len(beams) - 1) <= currentBeamIndex {
-						break;
+						break
 					}
 					currentBeamIndex += 1
 				}
@@ -33,16 +32,16 @@ func part1(lines []string) {
 					if c == '.' {
 						if len(newBeams) <= 0 {
 							newBeams = append(newBeams, i)
-						} else if newBeams[len(newBeams) - 1] != i {
+						} else if newBeams[len(newBeams)-1] != i {
 							newBeams = append(newBeams, i)
-						} 
-						
+						}
+
 					} else if c == '^' {
 						splits += 1
 						if i > 0 {
 							if len(newBeams) <= 0 {
 								newBeams = append(newBeams, i-1)
-							} else if newBeams[len(newBeams) - 1] != i-1 {
+							} else if newBeams[len(newBeams)-1] != i-1 {
 								newBeams = append(newBeams, i-1)
 							}
 						}
@@ -55,9 +54,7 @@ func part1(lines []string) {
 			//fmt.Println(newBeams)
 			beams = newBeams
 		}
-		
-		
-		
+
 	}
 	fmt.Println(splits)
 }
@@ -67,8 +64,7 @@ func part2(lines []string) {
 	beams := []int{}
 	for index, l := range lines {
 		if index == 0 {
-		
-			
+
 			timelines = make([]int, len(l))
 			for i, c := range l {
 				if c == 'S' {
@@ -86,7 +82,7 @@ func part2(lines []string) {
 			for i, c := range l {
 				if i > beams[currentBeamIndex] {
 					if (len(beams) - 1) <= currentBeamIndex {
-						break;
+						break
 					}
 					currentBeamIndex += 1
 				}
@@ -94,23 +90,23 @@ func part2(lines []string) {
 					if c == '.' {
 						if len(newBeams) <= 0 {
 							newBeams = append(newBeams, i)
-						} else if newBeams[len(newBeams) - 1] != i {
+						} else if newBeams[len(newBeams)-1] != i {
 							newBeams = append(newBeams, i)
-						} 
+						}
 						newTimelines[i] += timelines[i]
-						
+
 					} else if c == '^' {
 						if i > 0 {
 							if len(newBeams) <= 0 {
 								newBeams = append(newBeams, i-1)
-							} else if newBeams[len(newBeams) - 1] != i-1 {
+							} else if newBeams[len(newBeams)-1] != i-1 {
 								newBeams = append(newBeams, i-1)
 							}
 							newTimelines[i-1] += timelines[i]
 						}
 						if i < lineLength-1 {
 							newBeams = append(newBeams, i+1)
-						 	newTimelines[i+1] += timelines[i]
+							newTimelines[i+1] += timelines[i]
 						}
 					}
 				}
@@ -120,8 +116,7 @@ func part2(lines []string) {
 			}
 			beams = newBeams
 		}
-		
-		
+
 	}
 	total := 0
 	for _, n := range timelines {
@@ -130,14 +125,13 @@ func part2(lines []string) {
 	fmt.Println(total)
 }
 
-
 func main() {
 
 	dat, err := os.ReadFile("./day-06-input.txt")
 	if err != nil {
 		panic(err)
 	}
-	lines := strings.Split(string(dat), "\n") 
+	lines := strings.Split(string(dat), "\n")
 	//part1(lines)
 	part2(lines)
 }
